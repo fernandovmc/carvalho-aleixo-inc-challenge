@@ -108,6 +108,7 @@
   <script>
     // Gerar as estrelas (rating)
     const BASE_URL = import.meta.env.VITE_API_URL;
+    console.log(BASE_URL);
 
     function generateStars(ratingString) {
       const match = ratingString?.match(/([\d.]+) out of 5/);
