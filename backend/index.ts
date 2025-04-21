@@ -8,7 +8,7 @@ const app = express();
 const PORT = 3000;
 
 // Permitir requisições do frontend
-app.use(cors({ origin: "https://amazon-web-scraper-a4fq8k9wm-fernandovmcs-projects.vercel.app/" }));
+app.use(cors({ origin: "*" }));
 
 // Prevenir cache (evita 304 Not Modified)
 app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
@@ -76,5 +76,5 @@ app.get("/api/scrape-product", async (req, res) => {
 
 // Inicializa o servidor
 app.listen(PORT, () => {
-  console.log(`✅ Server is running at http://localhost:${PORT}`);
+  console.log(`Server is running at ${PORT}`);
 });
