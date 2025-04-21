@@ -5,10 +5,10 @@ import cors from "cors";
 import https from "https";
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 // Permitir requisições do frontend
-app.use(cors({ origin: "*" }));
+app.use(cors());
 
 // Prevenir cache (evita 304 Not Modified)
 app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
