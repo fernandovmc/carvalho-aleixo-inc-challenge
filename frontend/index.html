@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Amazon Scraper</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f4f6f8;
+      margin: 0;
+      padding: 20px;
+      color: #333;
+    }
+
+    h1 {
+      text-align: center;
+      color: #111;
+    }
+
+    .search-container {
+      display: flex;
+      justify-content: center;
+      margin: 20px 0;
+      gap: 10px;
+    }
+
+    input[type="text"] {
+      padding: 12px;
+      width: 300px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 16px;
+    }
+
+    button {
+      padding: 12px 20px;
+      background-color: #0070f3;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #0059c1;
+    }
+
+    #results {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+      margin-top: 30px;
+      max-width: 1200px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .product {
+      background: white;
+      padding: 15px;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+      transition: transform 0.2s ease;
+    }
+
+    .product:hover {
+      transform: translateY(-4px);
+    }
+
+    .product img {
+      max-width: 100%;
+      max-height: 200px;
+      object-fit: contain;
+      display: block;
+      margin: 0 auto 10px;
+    }
+
+    .product h3 {
+      font-size: 18px;
+      margin: 0 0 10px;
+      color: #222;
+    }
+
+    .stars {
+      color: #ffc107;
+      font-size: 18px;
+      margin-top: 5px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Amazon Product Scraper</h1>
+
+  <div class="search-container">
+    <input type="text" id="keyword" placeholder="Buscar produtos Amazon..." />
+    <button onclick="scrapeProducts()">Search</button>
+  </div>
+
+  <div id="results"></div>
+
+  <script>
+    // Gerar as estrelas (rating)
+    function generateStars(ratingString) {
+      const match = ratingString?.match(/([\d.]+) out of 5/);
+      const rating = match ? parseFloat(match[1]) : 0;
+      const fullStars = Math.floor(rating);
+      const halfStar = rating % 1 >= 0.5;
+      let stars = '★'.repeat(fullStars);
+      if (halfStar) stars += '½';
+      stars = stars.padEnd(5, '☆');
+      return `<div class="stars">${stars}</div>`;
+    }
+
+    // Função para buscar produtos
+    async function scrapeProducts() {
+      const keyword = document.querySelector("#keyword").value;
+      const resultsContainer = document.querySelector("#results");
+      resultsContainer.innerHTML = "<p>Carregando...</p>";
+
+      try {
+        const response = await fetch(`http://localhost:3000/api/scrape-product?keyword=${encodeURIComponent(keyword)}`);
+
+        const contentType = response.headers.get("content-type");
+        if (!contentType || !contentType.includes("application/json")) {
+          throw new Error("A resposta não é JSON válida.");
+        }
+
+        const data = await response.json();
+
+
+        // Verifica se a resposta contém produtos
+        if (data.results && data.results.length > 0) {
+          resultsContainer.innerHTML = data.results
+            .map(product => `
+              <div class="product">
+                <img src="${product.image}" alt="Product Image" />
+                <h3>${product.title}</h3>
+                ${generateStars(product.rating)}
+              </div>
+            `).join("");
+        } else {
+          resultsContainer.innerHTML = "<p>Nenhum produto encontrado.</p>";
+        }
+
+      } catch (err) {
+        console.error(err);
+        resultsContainer.innerHTML = "<p> Erro ao buscar os produtos.</p>";
+      }
+    }
+  </script>
+</body>
+</html>
