@@ -13,7 +13,7 @@ app.use(cors({
 }));
 
 // Prevenir cache (evita 304 Not Modified)
-app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
+app.use((req, res, next) => {
   res.setHeader("Cache-Control", "no-store");
   next();
 });
@@ -21,8 +21,8 @@ app.use((req: express.Request, res: express.Response, next: express.NextFunction
 // Rota de scraping
 app.get(
   "/api/scrape-product",
-  (async (req: express.Request, res: express.Response): Promise<void> => {
-    const keyword = req.query.keyword as string;
+  async (req, res) => {
+    const keyword = req.query.keyword;
     if (!keyword) {
       res.status(400).json({ error: "Keyword is required" });
       return;
@@ -54,10 +54,10 @@ app.get(
         return;
       }
 
-      const results: any[] = [];
+      const results = [];
       const items = document.querySelectorAll("div.s-main-slot > div[data-component-type='s-search-result']");
 
-      items.forEach((item: Element) => {
+      items.forEach((item) => {
         const title = item.querySelector("h2 span")?.textContent?.trim() || null;
         const rating = item.querySelector("[aria-label*='out of 5 stars']")?.getAttribute("aria-label") || null;
         const reviews = item.querySelector("span[aria-label$='ratings'], span[aria-label$='rating']")?.textContent?.trim() || null;
@@ -75,11 +75,11 @@ app.get(
 
       res.status(200).json({ keyword, results });
 
-    } catch (err: any) {
+    } catch (err) {
       console.error(err.message);
       res.status(500).json({ error: "Internal server error", details: err.message });
     }
-  }) as express.RequestHandler
+  }
 );
 
 // Inicializa o servidor
