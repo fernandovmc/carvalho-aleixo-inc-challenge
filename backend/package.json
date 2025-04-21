@@ -22,6 +22,8 @@
     "typescript": "^5"
   },
   "scripts": {
-    "dev": "bun run index.ts"
+    "dev": "bun run index.ts",
+    "start": "bun run index.ts",
+    "run": "bun run index.ts"
   }
 }
