@@ -9,7 +9,7 @@ Este projeto implementa um **web scraper** para coletar dados da Amazon.
 ## Tecnologias
 
 - **JavaScript (Vanilla com Vite)**
-- **~~Backend/API (Bun)~~**
+- **~~Backend/API (Bun) - não suportado no Railway~~**
 - **Backend/API (Node.JS)**
 
 💡 **Nota:** Este projeto é apenas para fins educacionais.
