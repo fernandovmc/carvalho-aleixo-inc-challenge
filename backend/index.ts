@@ -8,7 +8,7 @@ const app = express();
 const PORT = 3000;
 
 // Permitir requisições do frontend
-app.use(cors({ origin: "https://amazon-web-scraper-a4fq8k9wm-fernandovmcs-projects.vercel.app/" }));
+app.use(cors({ origin: "https://amazon-web-scraper-three.vercel.app/" }));
 
 // Prevenir cache (evita 304 Not Modified)
 app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
