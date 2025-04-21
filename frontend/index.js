@@ -52,4 +52,5 @@ async function ScrapeProducts() {
 
 
  }
- window.ScrapeProducts = ScrapeProducts;
+ 
+window.ScrapeProducts = ScrapeProducts;
