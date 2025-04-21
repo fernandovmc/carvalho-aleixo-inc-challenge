@@ -3,12 +3,15 @@ import axios from "axios";
 import { JSDOM } from "jsdom";
 import cors from "cors";
 import https from "https";
+import dotenv from "dotenv";
+import { origin } from "bun";
+dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Permitir requisições do frontend
-app.use(cors());
+app.use(cors({origin: 'https://amazon-web-scraper-three.vercel.app'}));
 
 // Prevenir cache (evita 304 Not Modified)
 app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
