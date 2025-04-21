@@ -107,6 +107,8 @@
 
   <script>
     // Gerar as estrelas (rating)
+    const BASE_URL = import.meta.env.VITE_API_URL;
+
     function generateStars(ratingString) {
       const match = ratingString?.match(/([\d.]+) out of 5/);
       const rating = match ? parseFloat(match[1]) : 0;
@@ -125,7 +127,7 @@
       resultsContainer.innerHTML = "<p>Carregando...</p>";
 
       try {
-        const response = await fetch(`http://localhost:3000/api/scrape-product?keyword=${encodeURIComponent(keyword)}`);
+        const response = await fetch(`${BASE_URL}/api/scrape-product?keyword=${encodeURIComponent(keyword)}`);
 
         const contentType = response.headers.get("content-type");
         if (!contentType || !contentType.includes("application/json")) {
