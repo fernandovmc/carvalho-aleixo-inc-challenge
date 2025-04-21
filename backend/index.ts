@@ -9,7 +9,10 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Permitir requisições do frontend
-app.use(cors({origin: 'https://amazon-web-scraper-three.vercel.app'}));
+app.use(cors({
+  origin: "https://amazon-web-scraper-three.vercel.app"
+}));
+
 
 // Prevenir cache (evita 304 Not Modified)
 app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
