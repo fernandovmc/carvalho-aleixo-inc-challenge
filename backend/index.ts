@@ -3,7 +3,6 @@ import axios from "axios";
 import { JSDOM } from "jsdom";
 import cors from "cors";
 import https from "https";
-import { origin } from "bun";
 
 const app = express();
 const PORT = process.env.PORT || 3000;
