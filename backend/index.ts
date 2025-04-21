@@ -9,7 +9,7 @@ const PORT = process.env.PORT || 3000;
 
 // Permitir requisições do frontend
 app.use(cors({
-  origin: ["https://amazon-web-scraper-three.vercel.app", origin]
+  origin: ["https://amazon-web-scraper-three.vercel.app"]
 }));
 
 
